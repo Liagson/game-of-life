@@ -30,18 +30,48 @@ int contador_vecinos(int x, int y, char** matriz){
 	return contador;
 }
 
-main(){
-	int tamano = 20;
-	int turno = 0;
-	int turno_limite = 20;
+void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno){
 	int vecinos;
 	int i, j;
 
+	move(0,0); //Actualizo el cursor a la posicion sup-izq
+	printw("%s\n", matriz_i[0]);
+	for(i = 1; i < tamano - 1; i++){
+		printw("%c", MUERTE);				
+		for(j = 1; j < tamano - 1; j++){
+			vecinos = contador_vecinos(i, j, matriz_i);
+			if (matriz_i[i][j] == VIDA){						
+				if (vecinos > 3 || vecinos < 2) matriz_o[i][j] = MUERTE;
+				else matriz_o[i][j] = VIDA;
+
+				attron(COLOR_PAIR(2));
+				printw("%c",matriz_i[i][j]);
+				attroff(COLOR_PAIR(2));
+			}
+			else{
+				if (vecinos == 3) matriz_o[i][j] = VIDA;
+				else matriz_o[i][j] = MUERTE;
+
+				printw("%c",matriz_i[i][j]);
+			}					
+		}
+		printw("%c\n", MUERTE);
+	}
+	printw("%s\n", matriz_i[tamano - 1]);	
+	printw("turno: %d\n", turno);
+	usleep(500000);
+	refresh();
+}
+
+main(){
+	int tamano = 20;
+	int turno = 0;
+	int turno_limite = 20;		
+	int i, j;
 	if (has_colors()){
 		printf("Error: la terminal no funciona con colores");
 		exit(-1);
 	}
-
 
 	matriz1 = malloc(tamano * sizeof(char*));
 	for(i = 0; i < tamano; i++) matriz1[i] = malloc(tamano);
@@ -54,7 +84,7 @@ main(){
 			matriz2[i][j] = MUERTE;
 		}
 	
-	matriz1[1][3] = VIDA;
+	matriz1[1][3] = VIDA; // Glider
 	matriz1[2][3] = VIDA;
 	matriz1[3][3] = VIDA;
 	matriz1[1][1] = VIDA;
@@ -65,60 +95,9 @@ main(){
 	init_pair(1, BLANCO, NEGRO); //Color celda MUERTE y estandar
 	init_pair(2, ROJO, NEGRO); //Color celda VIDA	
 	while(turno < turno_limite){
-		move(0,0);
-		if(turno % 2){;
-			printw("%s\n", matriz2[0]);
-			for(i = 1; i < tamano - 1; i++){
-				printw("%c", MUERTE);				
-				for(j = 1; j < tamano - 1; j++){
-					vecinos = contador_vecinos(i, j, matriz2);
-					if (matriz2[i][j] == VIDA){						
-						if (vecinos > 3 || vecinos < 2) matriz1[i][j] = MUERTE;
-						else matriz1[i][j] = VIDA;
-						attron(COLOR_PAIR(2));
-						printw("%c",matriz2[i][j]);
-						attroff(COLOR_PAIR(2));
-					}
-					else{
-						if (vecinos == 3) matriz1[i][j] = VIDA;
-						else matriz1[i][j] = MUERTE;
-						printw("%c",matriz2[i][j]);
-					}					
-				}
-				printw("%c\n", MUERTE);
-			}
-		printw("%s\n", matriz2[tamano - 1]);	
-		printw("turno: %d\n", turno);
-		usleep(500000);
-		refresh();
-
-		}else{
-			printw("%s\n", matriz1[0]);
-			for(i = 1; i < tamano - 1; i++){
-				printw("%c", MUERTE);				
-				for(j = 1; j < tamano - 1; j++){
-					vecinos = contador_vecinos(i, j, matriz1);
-					if (matriz1[i][j] == VIDA){						
-						if (vecinos > 3 || vecinos < 2) matriz2[i][j] = MUERTE;
-						else matriz2[i][j] = VIDA;
-						attron(COLOR_PAIR(2));
-						printw("%c",matriz1[i][j]);
-						attroff(COLOR_PAIR(2));
-					}
-					else{
-						if (vecinos == 3) matriz2[i][j] = VIDA;
-						else matriz2[i][j] = MUERTE;
-						printw("%c",matriz1[i][j]);
-					}					
-				}
-				printw("%c\n", MUERTE);
-			}
-			printw("%s\n", matriz1[tamano - 1]);	
-			printw("turno: %d\n", turno);
-			usleep(500000);
-			refresh();
-		}
-	turno++;	
+		if(turno % 2) actualizo_matriz(matriz2, matriz1, tamano, turno);
+		else actualizo_matriz(matriz1, matriz2, tamano, turno);
+		turno++;	
 	}	
 	endwin();
 }
