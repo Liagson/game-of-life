@@ -7,7 +7,7 @@
 #define MUERTE 'O'
 
 #define ROJO 1   //Si usara la libreria "curses.h" me ahorraría estas definiciones
-#define NEGRO 0
+#define NEGRO 0 // El "negro" es mas bien un verde ¿?
 #define BLANCO 7
 
 char** matriz1;
@@ -31,6 +31,7 @@ int contador_vecinos(int x, int y, char** matriz){
 }
 
 void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno){
+	/*No solo actualiza sino que además imprime la matriz actual*/
 	int vecinos;
 	int i, j;
 
