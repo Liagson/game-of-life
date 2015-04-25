@@ -46,6 +46,7 @@ main(){
 	
 	initscr();	
 	while(turno < turno_limite){
+		move(0,0);
 		if(turno % 2){
 			for(i = 1; i < tamano - 1; i++){
 				for(j = 1; j < tamano - 1; j++){
@@ -59,7 +60,7 @@ main(){
 				}
 				printw("%s\n", matriz2[i]);
 			}
-		
+		printw("turno: %d\n", turno);
 		sleep(1);
 		refresh();
 
@@ -76,11 +77,12 @@ main(){
 				}
 				printw("%s\n", matriz1[i]);
 			}
-
+		printw("turno: %d\n", turno);
 		sleep(1);
 		refresh();
 
 		}
+	turno++;	
 	}	
 	endwin();
 }
