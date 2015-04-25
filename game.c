@@ -27,19 +27,19 @@ int contador_vecinos(int x, int y, char** matriz){
 }
 
 main(){
-	int tamaño = 20;
+	int tamano = 20;
 	int turno = 0;
 	int turno_limite = 20;
 	int vecinos;
 	int i, j;
 
-	matriz1 = malloc(tamaño * sizeof(char*));
-	for(i = 0; i < tamaño; i++) matriz1[i] = malloc(tamaño);
-	matriz2 = malloc(tamaño * sizeof(char*));
-	for(i = 0; i < tamaño; i++) matriz2[i] = malloc(tamaño);
+	matriz1 = malloc(tamano * sizeof(char*));
+	for(i = 0; i < tamano; i++) matriz1[i] = malloc(tamano);
+	matriz2 = malloc(tamano * sizeof(char*));
+	for(i = 0; i < tamano; i++) matriz2[i] = malloc(tamano);
 
-	for(i = 0; i < tamaño; i++)
-		for(j = 0; j < tamaño; j++){
+	for(i = 0; i < tamano; i++)
+		for(j = 0; j < tamano; j++){
 			matriz1[i][j] = MUERTE;
 			matriz2[i][j] = MUERTE;
 		}
@@ -47,8 +47,8 @@ main(){
 	initscr();	
 	while(turno < turno_limite){
 		if(turno % 2){
-			for(i = 0; i < tamaño; i++){
-				for(j = 0; j < tamaño; j++){
+			for(i = 0; i < tamano; i++){
+				for(j = 0; j < tamano; j++){
 					vecinos = contador_vecinos(i, j, matriz2);
 					if (matriz2[i][j] == VIDA)						
 						if (vecinos > 3 ||  vecinos < 2) matriz1[i][j] = MUERTE;
@@ -64,8 +64,8 @@ main(){
 		refresh();
 
 		}else{
-			for(i = 0; i < tamaño; i++){
-				for(j = 0; j < tamaño; j++){
+			for(i = 0; i < tamano; i++){
+				for(j = 0; j < tamano; j++){
 					vecinos = contador_vecinos(i, j, matriz1);
 					if (matriz1[i][j] == VIDA)						
 						if (vecinos > 3 ||  vecinos < 2) matriz2[i][j] = MUERTE;
