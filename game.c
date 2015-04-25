@@ -1,10 +1,14 @@
 #include <stdio.h>
-#include <ncurses.h>
+#include <ncurses.h> //Necesario para la interfaz
 #include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
-#include <stdlib.h> //Necesario para el malloc
+#include <stdlib.h> //Necesario para el malloc y el exit
 
 #define VIDA 'X'
 #define MUERTE 'O'
+
+#define ROJO 1   //Si usara la libreria "curses.h" me ahorraría estas definiciones
+#define NEGRO 0
+#define BLANCO 7
 
 char** matriz1;
 char** matriz2;
@@ -33,6 +37,12 @@ main(){
 	int vecinos;
 	int i, j;
 
+	if (has_colors()){
+		printf("Error: la terminal no funciona con colores");
+		exit(-1);
+	}
+
+
 	matriz1 = malloc(tamano * sizeof(char*));
 	for(i = 0; i < tamano; i++) matriz1[i] = malloc(tamano);
 	matriz2 = malloc(tamano * sizeof(char*));
@@ -50,22 +60,32 @@ main(){
 	matriz1[1][1] = VIDA;
 	matriz1[3][2] = VIDA;
 
-	initscr();	
+	initscr();
+	start_color();
+	init_pair(1, BLANCO, NEGRO); //Color celda MUERTE y estandar
+	init_pair(2, ROJO, NEGRO); //Color celda VIDA	
 	while(turno < turno_limite){
 		move(0,0);
-		if(turno % 2){
+		if(turno % 2){;
 			printw("%s\n", matriz2[0]);
-			for(i = 1; i < tamano - 1; i++){				
+			for(i = 1; i < tamano - 1; i++){
+				printw("%c", MUERTE);				
 				for(j = 1; j < tamano - 1; j++){
 					vecinos = contador_vecinos(i, j, matriz2);
-					if (matriz2[i][j] == VIDA)						
+					if (matriz2[i][j] == VIDA){						
 						if (vecinos > 3 || vecinos < 2) matriz1[i][j] = MUERTE;
 						else matriz1[i][j] = VIDA;
-					else
+						attron(COLOR_PAIR(2));
+						printw("%c",matriz2[i][j]);
+						attroff(COLOR_PAIR(2));
+					}
+					else{
 						if (vecinos == 3) matriz1[i][j] = VIDA;
-						else matriz1[i][j] = MUERTE;					
+						else matriz1[i][j] = MUERTE;
+						printw("%c",matriz2[i][j]);
+					}					
 				}
-				printw("%s\n", matriz2[i]);
+				printw("%c\n", MUERTE);
 			}
 		printw("%s\n", matriz2[tamano - 1]);	
 		printw("turno: %d\n", turno);
@@ -75,22 +95,28 @@ main(){
 		}else{
 			printw("%s\n", matriz1[0]);
 			for(i = 1; i < tamano - 1; i++){
+				printw("%c", MUERTE);				
 				for(j = 1; j < tamano - 1; j++){
 					vecinos = contador_vecinos(i, j, matriz1);
-					if (matriz1[i][j] == VIDA)						
-						if (vecinos > 3 ||  vecinos < 2) matriz2[i][j] = MUERTE;
+					if (matriz1[i][j] == VIDA){						
+						if (vecinos > 3 || vecinos < 2) matriz2[i][j] = MUERTE;
 						else matriz2[i][j] = VIDA;
-					else
+						attron(COLOR_PAIR(2));
+						printw("%c",matriz1[i][j]);
+						attroff(COLOR_PAIR(2));
+					}
+					else{
 						if (vecinos == 3) matriz2[i][j] = VIDA;
 						else matriz2[i][j] = MUERTE;
+						printw("%c",matriz1[i][j]);
+					}					
 				}
-				printw("%s\n", matriz1[i]);
+				printw("%c\n", MUERTE);
 			}
-		printw("%s\n", matriz1[tamano - 1]);
-		printw("turno: %d\n", turno);
-		usleep(500000);
-		refresh();
-
+			printw("%s\n", matriz1[tamano - 1]);	
+			printw("turno: %d\n", turno);
+			usleep(500000);
+			refresh();
 		}
 	turno++;	
 	}	
