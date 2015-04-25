@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <ncurses.h>
-#include <unistd.h> //Necesario para el sleep
+#include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 #include <stdlib.h> //Necesario para el malloc
 
 #define VIDA 'X'
@@ -44,15 +44,22 @@ main(){
 			matriz2[i][j] = MUERTE;
 		}
 	
+	matriz1[1][3] = VIDA;
+	matriz1[2][3] = VIDA;
+	matriz1[3][3] = VIDA;
+	matriz1[1][1] = VIDA;
+	matriz1[3][2] = VIDA;
+
 	initscr();	
 	while(turno < turno_limite){
 		move(0,0);
 		if(turno % 2){
-			for(i = 1; i < tamano - 1; i++){
+			printw("%s\n", matriz2[0]);
+			for(i = 1; i < tamano - 1; i++){				
 				for(j = 1; j < tamano - 1; j++){
 					vecinos = contador_vecinos(i, j, matriz2);
 					if (matriz2[i][j] == VIDA)						
-						if (vecinos > 3 ||  vecinos < 2) matriz1[i][j] = MUERTE;
+						if (vecinos > 3 || vecinos < 2) matriz1[i][j] = MUERTE;
 						else matriz1[i][j] = VIDA;
 					else
 						if (vecinos == 3) matriz1[i][j] = VIDA;
@@ -60,11 +67,13 @@ main(){
 				}
 				printw("%s\n", matriz2[i]);
 			}
+		printw("%s\n", matriz2[tamano - 1]);	
 		printw("turno: %d\n", turno);
-		sleep(1);
+		usleep(500000);
 		refresh();
 
 		}else{
+			printw("%s\n", matriz1[0]);
 			for(i = 1; i < tamano - 1; i++){
 				for(j = 1; j < tamano - 1; j++){
 					vecinos = contador_vecinos(i, j, matriz1);
@@ -77,8 +86,9 @@ main(){
 				}
 				printw("%s\n", matriz1[i]);
 			}
+		printw("%s\n", matriz1[tamano - 1]);
 		printw("turno: %d\n", turno);
-		sleep(1);
+		usleep(500000);
 		refresh();
 
 		}
