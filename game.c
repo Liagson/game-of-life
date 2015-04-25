@@ -47,8 +47,8 @@ main(){
 	initscr();	
 	while(turno < turno_limite){
 		if(turno % 2){
-			for(i = 0; i < tamano; i++){
-				for(j = 0; j < tamano; j++){
+			for(i = 1; i < tamano - 1; i++){
+				for(j = 1; j < tamano - 1; j++){
 					vecinos = contador_vecinos(i, j, matriz2);
 					if (matriz2[i][j] == VIDA)						
 						if (vecinos > 3 ||  vecinos < 2) matriz1[i][j] = MUERTE;
@@ -64,8 +64,8 @@ main(){
 		refresh();
 
 		}else{
-			for(i = 0; i < tamano; i++){
-				for(j = 0; j < tamano; j++){
+			for(i = 1; i < tamano - 1; i++){
+				for(j = 1; j < tamano - 1; j++){
 					vecinos = contador_vecinos(i, j, matriz1);
 					if (matriz1[i][j] == VIDA)						
 						if (vecinos > 3 ||  vecinos < 2) matriz2[i][j] = MUERTE;
