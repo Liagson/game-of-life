@@ -67,7 +67,7 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno){
 main(){
 	int tamano = 20;
 	int turno = 0;
-	int turno_limite = 20;		
+	int turno_limite = 40;		
 	int i, j;
 	if (has_colors()){
 		printf("Error: la terminal no funciona con colores");
