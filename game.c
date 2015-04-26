@@ -30,15 +30,15 @@ int contador_vecinos(int x, int y, char** matriz){
 	return contador;
 }
 
-void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno){
+void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, int starty, int startx){
 	/*No solo actualiza sino que además imprime la matriz actual*/
 	int vecinos;
 	int i, j;
 
-	move(0,0); //Actualizo el cursor a la posicion sup-izq
-	printw("%s\n", matriz_i[0]);
+	//move(starty, startx); //Matriz ¿centrada? O_o
+	mvprintw(starty, startx, "%s\n", matriz_i[0]);
 	for(i = 1; i < tamano - 1; i++){
-		printw("%c", MUERTE);				
+		mvprintw(starty + i, startx, "%c", MUERTE);				
 		for(j = 1; j < tamano - 1; j++){
 			vecinos = contador_vecinos(i, j, matriz_i);
 			if (matriz_i[i][j] == VIDA){						
@@ -58,16 +58,18 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno){
 		}
 		printw("%c\n", MUERTE);
 	}
-	printw("%s\n", matriz_i[tamano - 1]);	
-	printw("turno: %d\n", turno);
+	mvprintw(starty + i, startx ,"%s\n", matriz_i[tamano - 1]);	
+	mvprintw(starty + i + 1, startx ,"turno: %d\n", turno);
 	usleep(500000);
 	refresh();
+	//move(starty, startx); //Matriz ¿centrada? O_o
 }
 
 main(){
 	int tamano = 20;
 	int turno = 0;
-	int turno_limite = 40;		
+	int turno_limite = 40;	
+	int starty, startx;	
 	int i, j;
 	if (has_colors()){
 		printf("Error: la terminal no funciona con colores");
@@ -92,12 +94,15 @@ main(){
 	matriz1[3][2] = VIDA;
 
 	initscr();
+	starty = (LINES - tamano) / 2;
+	startx = (COLS - tamano) / 2;
 	start_color();
 	init_pair(1, BLANCO, NEGRO); //Color celda MUERTE y estandar
 	init_pair(2, ROJO, NEGRO); //Color celda VIDA	
 	while(turno < turno_limite){
-		if(turno % 2) actualizo_matriz(matriz2, matriz1, tamano, turno);
-		else actualizo_matriz(matriz1, matriz2, tamano, turno);
+		
+		if(turno % 2) actualizo_matriz(matriz2, matriz1, tamano, turno, starty, startx);
+		else actualizo_matriz(matriz1, matriz2, tamano, turno, starty, startx);
 		turno++;	
 	}	
 	endwin();
