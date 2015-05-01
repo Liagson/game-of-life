@@ -55,7 +55,7 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 	}
 	mvprintw(starty + i, startx ,"%s\n", matriz_i[tamano - 1]);	
 	mvprintw(starty + i + 1, startx ,"turno: %d\n", turno);
-	usleep(500000);
+	usleep(FRAME_RATE);
 	refresh();
 	//move(starty, startx); //Matriz ¿centrada? O_o
 }
