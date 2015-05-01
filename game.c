@@ -3,12 +3,7 @@
 #include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 #include <stdlib.h> //Necesario para el malloc y el exit
 
-#define VIDA 'X'
-#define MUERTE 'O'
-
-#define ROJO 1   //Si usara la libreria "curses.h" me ahorraría estas definiciones
-#define NEGRO 0 // El "negro" es mas bien un verde ¿?
-#define BLANCO 7
+#include "game.h"
 
 char** matriz1;
 char** matriz2;
@@ -38,25 +33,25 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 	//move(starty, startx); //Matriz ¿centrada? O_o
 	mvprintw(starty, startx, "%s\n", matriz_i[0]);
 	for(i = 1; i < tamano - 1; i++){
-		mvprintw(starty + i, startx, "%c", MUERTE);				
+		mvprintw(starty + i, startx, "%c", CHAR_MUERTE);				
 		for(j = 1; j < tamano - 1; j++){
 			vecinos = contador_vecinos(i, j, matriz_i);
-			if (matriz_i[i][j] == VIDA){						
+			if (matriz_i[i][j]){		// posicion = VIDA
 				if (vecinos > 3 || vecinos < 2) matriz_o[i][j] = MUERTE;
 				else matriz_o[i][j] = VIDA;
 
 				attron(COLOR_PAIR(2));
-				printw("%c",matriz_i[i][j]);
+				printw("%c", CHAR_VIDA);
 				attroff(COLOR_PAIR(2));
 			}
 			else{
 				if (vecinos == 3) matriz_o[i][j] = VIDA;
 				else matriz_o[i][j] = MUERTE;
 
-				printw("%c",matriz_i[i][j]);
+				printw("%c", CHAR_MUERTE);
 			}					
 		}
-		printw("%c\n", MUERTE);
+		printw("%c\n", CHAR_MUERTE);
 	}
 	mvprintw(starty + i, startx ,"%s\n", matriz_i[tamano - 1]);	
 	mvprintw(starty + i + 1, startx ,"turno: %d\n", turno);
