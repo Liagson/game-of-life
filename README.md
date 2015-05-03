@@ -4,7 +4,7 @@
 	* `sudo apt-get install ncurses-dev`
 2. Instalar la librería **ncursesw.h** (*encargada de los carácteres especiales*)
  	* `sudo apt-get install libncurses-dev`
-3. `gcc game.c game.h -lncursesw -o game`
+3. `gcc game.c game.h -lncursesw5 -o game`
 
 ##Descripción
 Versión alfa del juego de la vida de Conway.
