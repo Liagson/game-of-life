@@ -1,0 +1,9 @@
+#CMake y relacionados#
+CMakeCache.txt
+CMakeFiles
+cmale_insall.cmake
+
+
+#Ejecutables#
+game
+game-of-life
