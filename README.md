@@ -7,9 +7,12 @@
 3. Instalar cmake
 	* sudo apt-get install cmake
 4. Generar Makefile
-	cmake .
+	* Asegurate que tienes el build-essential instalado
+		* `sudo apt-get install build-essential`
+	* Ejecuta `cmake .`
 5. Compilar
-	make
+	* Ejecuta `make`
+
 
 ##Descripción
 Versión alfa del juego de la vida de Conway.
