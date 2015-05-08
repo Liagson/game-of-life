@@ -1,8 +1,8 @@
 #CMake y relacionados#
 CMakeCache.txt
-CMakeFiles
-cmale_insall.cmake
-
+CMakeFiles/
+cmake_install.cmake
+MakeFile
 
 #Ejecutables#
 game
