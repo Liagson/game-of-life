@@ -1,9 +1,8 @@
+#include <locale.h> //Necesario para trabajar con los mismos carácteres que la consola
+#include <ncursesw/ncurses.h> //Necesario para la interfaz
 #include <stdio.h>
-#include <ncurses.h> //Necesario para la interfaz
-#include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 #include <stdlib.h> //Necesario para el malloc y el exit
-#include <ncursesw/ncurses.h> //????
-#include <locale.h> 
+#include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 
 #include "game.h"
 
@@ -32,7 +31,6 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 	int vecinos;
 	int i, j;
 
-	//move(starty, startx); //Matriz ¿centrada? O_o
 	mvprintw(starty, startx, "%s\n", matriz_i[0]);
 	for(i = 1; i < tamano - 1; i++){
 		mvprintw(starty + i, startx, "%s", CHAR_MUERTE);				
@@ -59,7 +57,6 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 	mvprintw(starty + i + 1, startx ,"turno: %d\n", turno);
 	usleep(FRAME_RATE);
 	refresh();
-	//move(starty, startx); //Matriz ¿centrada? O_o
 }
 
 main(){
