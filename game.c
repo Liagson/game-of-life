@@ -1,7 +1,8 @@
+#include <locale.h> //Necesario para trabajar con los mismos carácteres que la consola
+#include <ncursesw/ncurses.h> //Necesario para la interfaz
 #include <stdio.h>
-#include <ncurses.h> //Necesario para la interfaz
-#include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 #include <stdlib.h> //Necesario para el malloc y el exit
+#include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 
 #include "game.h"
 
@@ -30,10 +31,9 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 	int vecinos;
 	int i, j;
 
-	//move(starty, startx); //Matriz ¿centrada? O_o
 	mvprintw(starty, startx, "%s\n", matriz_i[0]);
 	for(i = 1; i < tamano - 1; i++){
-		mvprintw(starty + i, startx, "%c", CHAR_MUERTE);				
+		mvprintw(starty + i, startx, "%s", CHAR_MUERTE);				
 		for(j = 1; j < tamano - 1; j++){
 			vecinos = contador_vecinos(i, j, matriz_i);
 			if (matriz_i[i][j]){		// posicion = VIDA
@@ -41,26 +41,27 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 				else matriz_o[i][j] = VIDA;
 
 				attron(COLOR_PAIR(2));
-				printw("%c", CHAR_VIDA);
+				printw("%s", CHAR_VIDA);
 				attroff(COLOR_PAIR(2));
 			}
 			else{
 				if (vecinos == 3) matriz_o[i][j] = VIDA;
 				else matriz_o[i][j] = MUERTE;
 
-				printw("%c", CHAR_MUERTE);
+				printw("%s", CHAR_MUERTE);
 			}					
 		}
-		printw("%c\n", CHAR_MUERTE);
+		printw("%s\n", CHAR_MUERTE);
 	}
 	mvprintw(starty + i, startx ,"%s\n", matriz_i[tamano - 1]);	
 	mvprintw(starty + i + 1, startx ,"turno: %d\n", turno);
-	usleep(500000);
+	usleep(FRAME_RATE);
 	refresh();
-	//move(starty, startx); //Matriz ¿centrada? O_o
 }
 
 main(){
+
+  	setlocale(LC_ALL,"");
 	int tamano = 20;
 	int turno = 0;
 	int turno_limite = 40;	
