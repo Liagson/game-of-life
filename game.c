@@ -26,12 +26,27 @@ int contador_vecinos(int x, int y, char** matriz){
 	return contador;
 }
 
+void print_matriz(int turno, int tamano, char** matriz, int starty, int startx){
+	int i, j;
+	for(i = 1; i < tamano - 1; i++){
+		mvprintw(starty + i, startx, "%c", "");	
+		for(j = 1; j < tamano - 1; j++)
+			if (matriz[i][j]) {
+				attron(COLOR_PAIR(2));
+				printw("%s", CHAR_VIDA);
+				attroff(COLOR_PAIR(2));
+			}else printw("%s", CHAR_MUERTE);
+	}
+	mvprintw(starty + i, startx ,"turno: %d\n", turno);
+	usleep(FRAME_RATE);
+	refresh();
+}
+
 void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, int starty, int startx){
 	/*No solo actualiza sino que además imprime la matriz actual*/
 	int vecinos;
 	int i, j;
 
-	mvprintw(starty, startx, "%s\n", matriz_i[0]);
 	for(i = 1; i < tamano - 1; i++){
 		mvprintw(starty + i, startx, "%s", CHAR_MUERTE);				
 		for(j = 1; j < tamano - 1; j++){
@@ -39,24 +54,14 @@ void actualizo_matriz(char** matriz_i, char** matriz_o, int tamano, int turno, i
 			if (matriz_i[i][j]){		// posicion = VIDA
 				if (vecinos > 3 || vecinos < 2) matriz_o[i][j] = MUERTE;
 				else matriz_o[i][j] = VIDA;
-
-				attron(COLOR_PAIR(2));
-				printw("%s", CHAR_VIDA);
-				attroff(COLOR_PAIR(2));
 			}
 			else{
 				if (vecinos == 3) matriz_o[i][j] = VIDA;
 				else matriz_o[i][j] = MUERTE;
-
-				printw("%s", CHAR_MUERTE);
 			}					
 		}
-		printw("%s\n", CHAR_MUERTE);
 	}
-	mvprintw(starty + i, startx ,"%s\n", matriz_i[tamano - 1]);	
-	mvprintw(starty + i + 1, startx ,"turno: %d\n", turno);
-	usleep(FRAME_RATE);
-	refresh();
+	print_matriz(turno, tamano, matriz_i, starty, startx);
 }
 
 main(){
@@ -64,7 +69,7 @@ main(){
   	setlocale(LC_ALL,"");
 	int tamano = 20;
 	int turno = 0;
-	int turno_limite = 40;	
+	int turno_limite = 100;	
 	int starty, startx;	
 	int i, j;
 	if (has_colors()){
