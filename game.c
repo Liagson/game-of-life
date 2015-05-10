@@ -75,19 +75,13 @@ main(){
 		printf("Error: la terminal no funciona con colores");
 		exit(-1);
 	}
-/*
-	matriz1 = malloc(TAMANO * sizeof(char*));
-	for(i = 0; i < TAMANO; i++) matriz1[i] = malloc(TAMANO);
-	matriz2 = malloc(TAMANO * sizeof(char*));
-	for(i = 0; i < TAMANO; i++) matriz2[i] = malloc(TAMANO);
-		*/
-	/*
+	
 	for(i = 0; i < TAMANO; i++)
 		for(j = 0; j < TAMANO; j++){
 			matriz1[i][j] = MUERTE;
 			matriz2[i][j] = MUERTE;
 		}
-	*/
+	
 	matriz1[1][3] = VIDA; // Glider
 	matriz1[2][3] = VIDA;
 	matriz1[3][3] = VIDA;
