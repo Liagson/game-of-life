@@ -1,9 +1,9 @@
-#CMake y relacionados#
+#CMake y relacionados
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 Makefile
 
-#Ejecutables#
+#Ejecutables
 game
 game-of-life

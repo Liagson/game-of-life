@@ -10,4 +10,4 @@ static const char CHAR_MUERTE[] = "▫";
 #define NEGRO 0 // El "negro" es mas bien un verde ¿?
 #define BLANCO 7
 
-#define FRAME_RATE 500000
+#define FRAME_RATE 250000 // 4fps

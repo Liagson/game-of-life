@@ -43,7 +43,6 @@ void print_matriz(int turno, char matriz[TAMANO_Y][TAMANO_X], int starty, int st
 }
 
 void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y][TAMANO_X],  int turno, int starty, int startx){
-	/*No solo actualiza sino que además imprime la matriz actual*/
 	int vecinos;
 	int i, j;
 
