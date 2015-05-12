@@ -6,10 +6,10 @@
 
 #include "game.h"
 
-char matriz1[TAMANO][TAMANO];
-char matriz2[TAMANO][TAMANO];
+char matriz1[TAMANO_Y][TAMANO_X];
+char matriz2[TAMANO_Y][TAMANO_X];
 
-int contador_vecinos(int x, int y, char matriz[TAMANO][TAMANO]){
+int contador_vecinos(int x, int y, char matriz[TAMANO_Y][TAMANO_X]){
 	/* Devuelve el número de vecinos vivos */
 	int contador = 0;
 	if (matriz[x - 1][y - 1] == VIDA) contador++;
@@ -26,11 +26,11 @@ int contador_vecinos(int x, int y, char matriz[TAMANO][TAMANO]){
 	return contador;
 }
 
-void print_matriz(int turno, char matriz[TAMANO][TAMANO], int starty, int startx){
+void print_matriz(int turno, char matriz[TAMANO_Y][TAMANO_X], int starty, int startx){
 	int i, j;
-	for(i = 1; i < TAMANO - 1; i++){
+	for(i = 1; i < TAMANO_Y - 1; i++){
 		mvprintw(starty + i, startx, "%c", ' ');	
-		for(j = 1; j < TAMANO - 1; j++)
+		for(j = 1; j < TAMANO_X - 1; j++)
 			if (matriz[i][j]) {
 				attron(COLOR_PAIR(2));
 				printw("%s", CHAR_VIDA);
@@ -42,14 +42,14 @@ void print_matriz(int turno, char matriz[TAMANO][TAMANO], int starty, int startx
 	refresh();
 }
 
-void actualizo_matriz(char matriz_i[TAMANO][TAMANO], char matriz_o[TAMANO][TAMANO],  int turno, int starty, int startx){
+void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y][TAMANO_X],  int turno, int starty, int startx){
 	/*No solo actualiza sino que además imprime la matriz actual*/
 	int vecinos;
 	int i, j;
 
-	for(i = 1; i < TAMANO - 1; i++){
+	for(i = 1; i < TAMANO_Y - 1; i++){
 		mvprintw(starty + i, startx, "%s", CHAR_MUERTE);				
-		for(j = 1; j < TAMANO - 1; j++){
+		for(j = 1; j < TAMANO_X - 1; j++){
 			vecinos = contador_vecinos(i, j, matriz_i);
 			if (matriz_i[i][j]){		// posicion = VIDA
 				if (vecinos > 3 || vecinos < 2) matriz_o[i][j] = MUERTE;
@@ -76,8 +76,8 @@ main(){
 		exit(-1);
 	}
 	
-	for(i = 0; i < TAMANO; i++)
-		for(j = 0; j < TAMANO; j++){
+	for(i = 0; i < TAMANO_Y; i++)
+		for(j = 0; j < TAMANO_X; j++){
 			matriz1[i][j] = MUERTE;
 			matriz2[i][j] = MUERTE;
 		}
@@ -89,8 +89,8 @@ main(){
 	matriz1[3][2] = VIDA;
 
 	initscr();
-	starty = (LINES - TAMANO) / 2;
-	startx = (COLS - TAMANO) / 2;
+	starty = (LINES - TAMANO_Y) / 2;
+	startx = (COLS - TAMANO_X) / 2;
 	start_color();
 	init_pair(1, BLANCO, NEGRO); //Color celda MUERTE y estandar
 	init_pair(2, ROJO, NEGRO); //Color celda VIDA	
