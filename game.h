@@ -6,8 +6,9 @@ static const char CHAR_MUERTE[] = "▫";
 #define TAMANO_X 40
 #define TAMANO_Y 20
 
-#define ROJO 1   //Si usara la libreria "curses.h" me ahorraría estas definiciones
-#define NEGRO 0 // El "negro" es mas bien un verde ¿?
-#define BLANCO 7
+/* Curses */
+#define ROJO COLOR_RED   
+#define NEGRO COLOR_BLACK // El "negro" es mas bien un verde ¿?
+#define BLANCO COLOR_WHITE
 
 #define FRAME_RATE 250000 // 4fps
