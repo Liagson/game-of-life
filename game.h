@@ -1,10 +1,19 @@
+/* Matriz */
 #define VIDA 1
 #define MUERTE 0
+
 static const char CHAR_VIDA[] = "▪";
 static const char CHAR_MUERTE[] = "▫";
 
 #define TAMANO_X 40
 #define TAMANO_Y 20
+
+/* Teclado (numberpad) */
+#define K_UP 56 // Una buena mejora sería conseguir hacer que se lean las flechas del teclado sin que todo explote. 
+#define K_DOWN 50
+#define K_RIGHT 54
+#define K_LEFT 52
+#define K_SPACE 32
 
 /* Curses */
 #define ROJO COLOR_RED   
