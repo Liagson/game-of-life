@@ -14,10 +14,11 @@ static const char CHAR_MUERTE[] = "▫";
 #define K_RIGHT 54
 #define K_LEFT 52
 #define K_SPACE 32
+#define K_INTRO 53
 
 /* Curses */
 #define ROJO COLOR_RED   
 #define NEGRO COLOR_BLACK // El "negro" es mas bien un verde ¿?
 #define BLANCO COLOR_WHITE
 
-#define FRAME_RATE 250000 // 4fps
+#define FRAME_RATE 100000 // 10fps

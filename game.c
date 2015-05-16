@@ -16,25 +16,59 @@ int turno = 0;
 
 void pantalla_inicio(){
 	int tecla = 0;
-	int x = 0;
-	int y = 0;
-	while(tecla != K_SPACE)
+
+	int limite_izq = startx + 1; // Los numeros sumados vienen del marco de la matriz (que nunca se visualiza)
+	int limite_sup = starty + 1;
+	int limite_inf = starty +  TAMANO_Y - 2; 
+	int limite_der = startx + TAMANO_X - 2;
+
+	int x = limite_izq;
+	int y = limite_sup;
+	int x_matriz = 1;
+	int y_matriz = 1;
+	while(tecla != K_SPACE){
+
+		/* Cabecera - Pantalla inicio */
+		mvprintw(0, startx - 2, "Usa las flechas del numberpad para navegar\n");
+		mvprintw(1, startx - 8, "El '5' del numberpad sirve para crear/destruir celulas\n");
+		mvprintw(2, startx, "Para continuar pulsa la barra de espacio");
+
+		print_matriz(matriz1);
+		move (y, x); // (Y, X)
+		tecla = getch();
 		switch(tecla){
 				case K_UP: //UP
-					if (x > 0) x--;
+					if (y > limite_sup){
+						y--;
+						y_matriz--;
+					}
 					break;
 				case K_DOWN: //DOWN
-					if (x < TAMANO_X - 1) x++;
+					if (y < limite_inf){
+						y++;
+						y_matriz++;
+					}
 					break;
 				case K_RIGHT: //RIGHT
-					if(y < TAMANO_Y - 1) y++;
+					if(x < limite_der) {
+						x++;
+						x_matriz++;
+					}
 					break;
 				case K_LEFT: //LEFT
-					if(y > 0) y--;
+					if(x > limite_izq) {
+						x--;
+						x_matriz--;						
+					}
+					break;					
+				case K_INTRO:
+					matriz1[y_matriz][x_matriz] = (matriz1[y_matriz][x_matriz]) ? MUERTE : VIDA;
+					break;
 				default:
 					break;
-
-			}
+		}		
+		usleep(10000); //Evita que haya problemas al darle muy rapido al teclado
+	}
 }
 
 int contador_vecinos(int x, int y, char matriz[TAMANO_Y][TAMANO_X]){
@@ -55,8 +89,9 @@ int contador_vecinos(int x, int y, char matriz[TAMANO_Y][TAMANO_X]){
 }
 
 void print_matriz(char matriz[TAMANO_Y][TAMANO_X]){
+	/* El refresh() no se hace dentro! */
 	int i, j;	
-	
+
 	for(i = 1; i < TAMANO_Y - 1; i++){
 		mvprintw(starty + i, startx, "%c", ' ');	
 		for(j = 1; j < TAMANO_X - 1; j++)
@@ -67,8 +102,7 @@ void print_matriz(char matriz[TAMANO_Y][TAMANO_X]){
 			}else printw("%s", CHAR_MUERTE);
 	}
 	mvprintw(starty + i, startx +1,"turno: %d\n", turno);
-	usleep(FRAME_RATE);
-	refresh();
+	usleep(FRAME_RATE);	
 }
 
 void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y][TAMANO_X]){
@@ -89,6 +123,12 @@ void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y]
 		}
 	}
 	print_matriz(matriz_i);
+
+	/* Cabecera - Partida */
+	mvprintw(0, 0, "\n");
+	mvprintw(1, startx - 8, "          Para salir pulsa la barra de espacio\n\n");
+	move(starty - 1, startx + 1); //Dejo el cursor en un sitio discreto
+	refresh();
 }
 
 main(){
@@ -96,7 +136,6 @@ main(){
   	setlocale(LC_ALL,""); //Ajuste de caracteres de terminal
 	int turno_limite = 100;	
 	int i, j;
-
 	if (has_colors()){
 		fprintf(stderr, "Error: la terminal no funciona con colores\n");
 		exit(1);
@@ -107,12 +146,6 @@ main(){
 			matriz1[i][j] = MUERTE;
 			matriz2[i][j] = MUERTE;
 		}
-	
-	matriz1[1][3] = VIDA; // Glider
-	matriz1[2][3] = VIDA;
-	matriz1[3][3] = VIDA;
-	matriz1[1][1] = VIDA;
-	matriz1[3][2] = VIDA;
 
 	initscr();
 	starty = (LINES - TAMANO_Y) / 2;
@@ -123,9 +156,8 @@ main(){
 	init_pair(2, ROJO, NEGRO); //Color celda VIDA	
 	
 	noecho(); //Evita que aparezca la tecla pulsada en pantalla
-
+	pantalla_inicio();
 	while(turno < turno_limite){
-		
 		if(turno % 2) actualizo_matriz(matriz2, matriz1);
 		else actualizo_matriz(matriz1, matriz2);
 		turno++;	
