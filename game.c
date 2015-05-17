@@ -1,6 +1,5 @@
 #include <locale.h> //Necesario para trabajar con los mismos carácteres que la consola
 #include <ncursesw/ncurses.h> //Necesario para la interfaz
-#include <pthread.h> //Necesario para el multithreading 
 #include <stdio.h> 
 #include <stdlib.h> //Necesario para el exit
 #include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
@@ -28,6 +27,7 @@ void pantalla_inicio(){
 	int y = limite_sup;
 	int x_matriz = 1;
 	int y_matriz = 1;
+
 	while(tecla != K_SPACE){
 
 		/* Cabecera - Pantalla inicio */
@@ -36,28 +36,28 @@ void pantalla_inicio(){
 		mvprintw(limite_sup - 2, startx, "Para continuar pulsa la barra de espacio");
 
 		print_matriz(matriz1);
-		move (y, x); // (Y, X)
+		move (y, x); 
 		tecla = getch();
 		switch(tecla){
-				case K_UP: //UP
+				case K_UP: 
 					if (y > limite_sup){
 						y--;
 						y_matriz--;
 					}
 					break;
-				case K_DOWN: //DOWN
+				case K_DOWN: 
 					if (y < limite_inf){
 						y++;
 						y_matriz++;
 					}
 					break;
-				case K_RIGHT: //RIGHT
+				case K_RIGHT: 
 					if(x < limite_der) {
 						x++;
 						x_matriz++;
 					}
 					break;
-				case K_LEFT: //LEFT
+				case K_LEFT: 
 					if(x > limite_izq) {
 						x--;
 						x_matriz--;						
@@ -128,7 +128,7 @@ void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y]
 
 	/* Cabecera - Partida */
 	mvprintw(starty - 4, startx, "\n\n\n"); //Machaco el mensaje viejo 
-	mvprintw(starty - 2, startx - 8, "                                                      "); //fuck you ncurses
+	mvprintw(starty - 2, startx - 8, "                                                      "); //ncurses me odia
 	mvprintw(starty - 1, startx - 8, "          Para salir pulsa la barra de espacio\n\n");
 	move(starty - 1, startx + 1); //Dejo el cursor en un sitio discreto
 	refresh();
@@ -139,17 +139,21 @@ main(int argc, char* argv[]){
   	setlocale(LC_ALL,""); //Ajuste de caracteres de terminal
 	int turno_limite = (argc > 1) ? atoi(argv[1]) : -1; //Si no hay input el bucle es inifinito	
 	int i, j;
+
 	if (has_colors()){
 		fprintf(stderr, "Error: la terminal no funciona con colores\n");
 		exit(1);
 	}
 	
+	/* Inicialización de las matrices */
 	for(i = 0; i < TAMANO_Y; i++)
 		for(j = 0; j < TAMANO_X; j++){
 			matriz1[i][j] = MUERTE;
 			matriz2[i][j] = MUERTE;
 		}
 
+	
+	/* Inicio del juego */	
 	WINDOW *w = initscr();
 	starty = (LINES - TAMANO_Y) / 2;
 	startx = (COLS - TAMANO_X) / 2;
