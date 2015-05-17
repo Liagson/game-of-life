@@ -1,7 +1,8 @@
 #include <locale.h> //Necesario para trabajar con los mismos carácteres que la consola
 #include <ncursesw/ncurses.h> //Necesario para la interfaz
+#include <pthread.h> //Necesario para el multithreading 
 #include <stdio.h> 
-#include <stdlib.h> //Necesario para el malloc y el exit
+#include <stdlib.h> //Necesario para el exit
 #include <unistd.h> //Necesario para el usleep (deprecated, por lo visto)
 
 #include "game.h"
@@ -13,6 +14,7 @@ int startx; //Posicion desde donde se imprime la matriz. La posición se calcula
 int starty; 
 
 int turno = 0;
+int salida = 0;
 
 void pantalla_inicio(){
 	int tecla = 0;
@@ -29,7 +31,7 @@ void pantalla_inicio(){
 	while(tecla != K_SPACE){
 
 		/* Cabecera - Pantalla inicio */
-		mvprintw(0, startx - 2, "Usa las flechas del numberpad para navegar\n");
+		mvprintw(0, startx - 1, "Usa las flechas del numberpad para navegar\n");
 		mvprintw(1, startx - 8, "El '5' del numberpad sirve para crear/destruir celulas\n");
 		mvprintw(2, startx, "Para continuar pulsa la barra de espacio");
 
@@ -134,6 +136,7 @@ void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y]
 main(){
 
   	setlocale(LC_ALL,""); //Ajuste de caracteres de terminal
+	pthread_t hilo;
 	int turno_limite = 100;	
 	int i, j;
 	if (has_colors()){
@@ -147,7 +150,7 @@ main(){
 			matriz2[i][j] = MUERTE;
 		}
 
-	initscr();
+	WINDOW *w = initscr();
 	starty = (LINES - TAMANO_Y) / 2;
 	startx = (COLS - TAMANO_X) / 2;
 
@@ -157,12 +160,14 @@ main(){
 	
 	noecho(); //Evita que aparezca la tecla pulsada en pantalla
 	pantalla_inicio();
-	while(turno < turno_limite){
+	cbreak();
+	nodelay(w, TRUE);
+	while((turno < turno_limite) && (salida != K_SPACE)){
+		salida = getch();
 		if(turno % 2) actualizo_matriz(matriz2, matriz1);
 		else actualizo_matriz(matriz1, matriz2);
 		turno++;	
 	}
-
 	endwin();
 	exit(0);
 }
