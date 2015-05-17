@@ -133,11 +133,10 @@ void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y]
 	refresh();
 }
 
-main(){
+main(int argc, char* argv[]){
 
   	setlocale(LC_ALL,""); //Ajuste de caracteres de terminal
-	pthread_t hilo;
-	int turno_limite = 100;	
+	int turno_limite = (argc > 1) ? atoi(argv[1]) : -1; //Si no hay input el bucle es inifinito	
 	int i, j;
 	if (has_colors()){
 		fprintf(stderr, "Error: la terminal no funciona con colores\n");
@@ -160,14 +159,18 @@ main(){
 	
 	noecho(); //Evita que aparezca la tecla pulsada en pantalla
 	pantalla_inicio();
-	cbreak();
+
+	cbreak(); // Consigue que getch() no pare el programa
 	nodelay(w, TRUE);
-	while((turno < turno_limite) && (salida != K_SPACE)){
+
+	while(((turno_limite < 0)||(turno < turno_limite)) && (salida != K_SPACE)){
 		salida = getch();
+		turno++;	
 		if(turno % 2) actualizo_matriz(matriz2, matriz1);
 		else actualizo_matriz(matriz1, matriz2);
-		turno++;	
+		
 	}
+	while(salida != K_SPACE) salida = getch();
 	endwin();
 	exit(0);
 }
