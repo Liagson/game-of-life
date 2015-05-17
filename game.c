@@ -31,9 +31,9 @@ void pantalla_inicio(){
 	while(tecla != K_SPACE){
 
 		/* Cabecera - Pantalla inicio */
-		mvprintw(0, startx - 1, "Usa las flechas del numberpad para navegar\n");
-		mvprintw(1, startx - 8, "El '5' del numberpad sirve para crear/destruir celulas\n");
-		mvprintw(2, startx, "Para continuar pulsa la barra de espacio");
+		mvprintw(limite_sup - 4, startx - 1, "Usa las flechas del numberpad para navegar\n");
+		mvprintw(limite_sup - 3, startx - 8, "El '5' del numberpad sirve para crear/destruir celulas\n");
+		mvprintw(limite_sup - 2, startx, "Para continuar pulsa la barra de espacio");
 
 		print_matriz(matriz1);
 		move (y, x); // (Y, X)
@@ -127,8 +127,9 @@ void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y]
 	print_matriz(matriz_i);
 
 	/* Cabecera - Partida */
-	mvprintw(0, 0, "\n");
-	mvprintw(1, startx - 8, "          Para salir pulsa la barra de espacio\n\n");
+	mvprintw(starty - 4, startx, "\n\n\n"); //Machaco el mensaje viejo 
+	mvprintw(starty - 2, startx - 8, "                                                      "); //fuck you ncurses
+	mvprintw(starty - 1, startx - 8, "          Para salir pulsa la barra de espacio\n\n");
 	move(starty - 1, startx + 1); //Dejo el cursor en un sitio discreto
 	refresh();
 }
@@ -166,10 +167,11 @@ main(int argc, char* argv[]){
 	while(((turno_limite < 0)||(turno < turno_limite)) && (salida != K_SPACE)){
 		salida = getch();
 		turno++;	
-		if(turno % 2) actualizo_matriz(matriz2, matriz1);
-		else actualizo_matriz(matriz1, matriz2);
+		if(turno % 2) actualizo_matriz(matriz1, matriz2);
+		else actualizo_matriz(matriz2, matriz1);
 		
 	}
+	salida = 0;
 	while(salida != K_SPACE) salida = getch();
 	endwin();
 	exit(0);
