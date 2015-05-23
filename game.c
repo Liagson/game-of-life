@@ -31,9 +31,9 @@ void pantalla_inicio(){
 	while(tecla != K_SPACE){
 
 		/* Cabecera - Pantalla inicio */
-		mvprintw(limite_sup - 4, startx - 1, "Usa las flechas del numberpad para navegar\n");
-		mvprintw(limite_sup - 3, startx - 8, "El '5' del numberpad sirve para crear/destruir celulas\n");
-		mvprintw(limite_sup - 2, startx, "Para continuar pulsa la barra de espacio");
+		mvprintw(limite_sup - 3, startx - 1, "Usa las flechas del numberpad para navegar\n");
+		mvprintw(limite_sup - 2, startx - 8, "El '5' del numberpad sirve para crear/destruir celulas\n");
+		mvprintw(limite_sup - 1, startx, "Para continuar pulsa la barra de espacio");
 
 		print_matriz(matriz1);
 		move (y, x); 
