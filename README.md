@@ -15,6 +15,6 @@
 
 
 ##Descripción
-Versión alfa del juego de la vida de [Conway](http://en.wikipedia.org/wiki/John_Horton_Conway).
-Edita usando el numberpad la configuración inicial y disfruta con su evolución. Si deseas que dure un número determinado de números añade ese número de turnos a los parámetros del programa. Por ejemplo: `./game-of-life 42` para tener 42 ciclos.
+Versión beta del juego de la vida de [Conway](http://en.wikipedia.org/wiki/John_Horton_Conway).
+Edita usando el numberpad la configuración inicial y disfruta con su evolución. Si deseas que dure un número determinado de turnos añade ese número de turnos a los parámetros del programa. Por ejemplo: `./game-of-life 42` para tener 42 ciclos.
 * [Video de numberphile](https://www.youtube.com/watch?v=E8kUJL04ELA) sobre el juego.
