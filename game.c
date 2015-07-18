@@ -127,8 +127,11 @@ void actualizo_matriz(char matriz_i[TAMANO_Y][TAMANO_X], char matriz_o[TAMANO_Y]
 	print_matriz(matriz_i);
 
 	/* Cabecera - Partida */
-	mvprintw(starty - 4, startx, "\n\n\n"); //Machaco el mensaje viejo 
-	mvprintw(starty - 2, startx - 8, "                                                      "); //ncurses me odia
+	move(starty - 4, startx);
+	clrtoeol();
+
+	//mvprintw(starty - 4, startx, "\n\n\n"); //Machaco el mensaje viejo 
+	//mvprintw(starty - 2, startx - 8, "                                                      "); //ncurses me odia
 	mvprintw(starty - 1, startx - 8, "          Para salir pulsa la barra de espacio\n\n");
 	move(starty - 1, startx + 1); //Dejo el cursor en un sitio discreto
 	refresh();
