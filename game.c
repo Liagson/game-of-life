@@ -6,6 +6,10 @@
 
 #include "game.h"
 
+void print_matriz();
+void pantalla_inicio();
+void actualizo_matriz();
+
 char matriz1[TAMANO_Y][TAMANO_X];
 char matriz2[TAMANO_Y][TAMANO_X];
 
