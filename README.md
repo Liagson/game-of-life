@@ -12,7 +12,10 @@
 	* Ejecuta `cmake .`
 5. Compilar
 	* Ejecuta `make`
-
+	
+**Nota:** Si *make* da problemas siempre se puede ejecutar:
+	`gcc game.c -lncursesw -o game`
+	
 
 ##Descripción
 Versión beta del juego de la vida de [Conway](http://en.wikipedia.org/wiki/John_Horton_Conway).
