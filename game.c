@@ -21,6 +21,7 @@ int salida = 0;
 
 void pantalla_inicio(){
 	int tecla = 0;
+	int tecla_anterior;
 
 	int limite_izq = startx + 1; // Los numeros sumados vienen del marco de la matriz (que nunca se visualiza)
 	int limite_sup = starty + 1;
@@ -32,7 +33,7 @@ void pantalla_inicio(){
 	int x_matriz = 1;
 	int y_matriz = 1;
 
-	while(tecla != K_SPACE){
+	while(tecla_anterior != K_SPACE){
 
 		/* Cabecera - Pantalla inicio */
 		mvprintw(limite_sup - 3, startx - 1, "Usa las flechas del numberpad para navegar\n");
@@ -41,8 +42,11 @@ void pantalla_inicio(){
 
 		print_matriz(matriz1);
 		move (y, x); 
-		tecla = getch();
-		switch(tecla){
+
+		tecla_anterior = 0;		
+		while((tecla = getch()) != ERR) tecla_anterior = tecla;  //Elimina el buffer de stdin
+		
+		switch(tecla_anterior){
 				case K_UP: 
 					if (y > limite_sup){
 						y--;
@@ -171,10 +175,12 @@ main(int argc, char* argv[]){
 	init_pair(2, ROJO, NEGRO); //Color celda VIDA	
 	
 	noecho(); //Evita que aparezca la tecla pulsada en pantalla
-	pantalla_inicio();
 
 	cbreak(); // Consigue que getch() no pare el programa
 	nodelay(w, TRUE);
+
+	pantalla_inicio();
+
 
 	while(((turno_limite < 0)||(turno < turno_limite)) && (salida != K_SPACE)){
 		salida = getch();
