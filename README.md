@@ -19,4 +19,4 @@ Versión beta del juego de la vida de [Conway](http://en.wikipedia.org/wiki/John
 Edita usando el numberpad la configuración inicial y disfruta con su evolución. Si deseas que dure un número determinado de turnos añade ese número de turnos a los parámetros del programa. Por ejemplo: `./game-of-life 42` para tener 42 ciclos.
 * [Video de numberphile](https://www.youtube.com/watch?v=E8kUJL04ELA) sobre el juego.
 
-![Captura](http://s11.postimg.org/5cv94230j/Screenshot_from_2015_06_04_21_28_56.png)
+![Captura](http://i.imgur.com/aTafBJ7.png?1)
