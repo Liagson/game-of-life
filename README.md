@@ -1,4 +1,4 @@
-#[Juego de la vida](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) (BETA) ![Glider](http://upload.wikimedia.org/wikipedia/commons/f/f2/Game_of_life_animated_glider.gif)
+#[Juego de la vida](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) ![Glider](http://upload.wikimedia.org/wikipedia/commons/f/f2/Game_of_life_animated_glider.gif)
 ##Compilación
 1. Instalar la librería **ncurses.h**
 	* `sudo apt-get install ncurses-dev`
